@@ -19,8 +19,33 @@ fastf1.Cache.enable_cache(str(cache_dir))
 
 print(f"✅ FastF1 cache enabled at: {cache_dir}")
 
-F1_BOLD_PATH = r"D:\DATA ANALYSIS PROJECTS\F1\F1 Font\Formula1-Bold_web_0.ttf"
-F1_REGULAR_PATH = r"D:\DATA ANALYSIS PROJECTS\F1\F1 Font\Formula1-Bold_web_0.ttf"
+import os
+import requests
+
+# GitHub raw font URLs
+F1_BOLD_URL = "https://github.com/SumanGouda/F1-Analysis-Project/raw/refs/heads/main/F1%20Font/Formula1-Bold_web_0.ttf"
+F1_REGULAR_URL = "https://github.com/SumanGouda/F1-Analysis-Project/raw/refs/heads/main/F1%20Font/Formula1-Regular_web_0.ttf"
+
+# Local paths (in your working folder)
+F1_BOLD_PATH = "D:\DATA ANALYSIS PROJECTS\F1\F1 Font\Formula1-Bold_web_0.ttf"
+F1_REGULAR_PATH = "D:\DATA ANALYSIS PROJECTS\F1\F1 Font\Formula1-Regular_web_0.ttf"
+
+def download_font(url, path):
+    """Download font if not already present."""
+    if not os.path.exists(path):
+        print(f"Downloading {path} ...")
+        response = requests.get(url)
+        if response.status_code == 200:
+            with open(path, "wb") as f:
+                f.write(response.content)
+        else:
+            raise Exception(f"Failed to download {url}")
+    else:
+        print(f"{path} already exists.")
+
+# Download both fonts
+download_font(F1_BOLD_URL, F1_BOLD_PATH)
+download_font(F1_REGULAR_URL, F1_REGULAR_PATH)
 
 st.set_page_config(layout="wide")
 
